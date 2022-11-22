@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,17 @@ class MybatisPlusApplicationTests {
     //TODO 删除
     @Test
     void testDeleteById(){
-        userDao.deleteById(1594634225909358594L);
+        userDao.deleteById(2);
+    }
+
+    //TODO 多条删除
+    @Test
+    void testDeleteBatchIds(){
+        List<Long> list = new ArrayList<>();
+        list.add(6L);
+        list.add(7L);
+        list.add(8L);
+        userDao.deleteBatchIds(list);
     }
 
     //TODO 修改
@@ -47,15 +58,26 @@ class MybatisPlusApplicationTests {
         user.setPassword("666");
         user.setTel("114514");
         user.setAge(10000);
-        user.setId(1594635070780555265L);
+        user.setId(5L);
+        user.setVersion(1);//加乐观锁必须获取,也可以通过查询获取version
         userDao.updateById(user);
     }
 
     //TODO 按ID查询
     @Test
     void testSelectById(){
-        User user = userDao.selectById(1);
+        User user = userDao.selectById(2);
         System.out.println(user);
+    }
+
+    //TODO 多个查询
+    @Test
+    void testSelectBatchIds(){
+        List<Long> list = new ArrayList<>();
+        list.add(1L);
+        list.add(2L);
+        list.add(3L);
+        userDao.selectBatchIds(list);
     }
 
     //TODO 查询全部
@@ -176,5 +198,4 @@ class MybatisPlusApplicationTests {
         List<User> users = userDao.selectList(wrapper);
         System.out.println(users);
     }
-
 }
